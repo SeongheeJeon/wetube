@@ -42,6 +42,7 @@ export const githubLoginCallback = async (_, __, profile, cb) => {
   const {
     _json: { id, avatar_url: avatarUrl, name, email },
   } = profile;
+  console.log(profile._json);
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -69,7 +70,11 @@ export const kakaobLogin = passport.authenticate("kakao");
 
 export const kakaoLoginCallback = async (_, __, profile, cb) => {
   const {
-    _json: { id, email },
+    _json: {
+      id,
+      kakao_account: { email },
+      properties: { nickname, profile_image },
+    },
   } = profile;
   try {
     const user = await User.findOne({ email });
@@ -80,7 +85,9 @@ export const kakaoLoginCallback = async (_, __, profile, cb) => {
     }
     const newUser = await User.create({
       email,
+      name: nickname,
       kakaoId: id,
+      avatarUrl: profile_image,
     });
     return cb(null, newUser);
   } catch (error) {
@@ -113,8 +120,26 @@ export const userDetail = async (req, res) => {
   }
 };
 
-export const editProfile = (req, res) =>
+export const getEditProfile = (req, res) =>
   res.render("editProfile", { pageTitle: "Edit Profile" });
 
+export const postEditProfile = async (req, res) => {
+  const {
+    body: { name, email },
+    file,
+  } = req;
+  console.log(req.user);
+  try {
+    const user = await User.findByIdAndUpdate(req.user._id, {
+      name,
+      email,
+      avatarUrl: file ? file.path : req.user.avatarUrl,
+    });
+    user.save();
+    res.redirect(routes.me);
+  } catch (error) {
+    res.render("editProfile", { pageTitle: "Edit Profile" });
+  }
+};
 export const changePassword = (req, res) =>
   res.render("changePassword", { pageTitle: "Change Password" });
