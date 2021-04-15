@@ -17,4 +17,7 @@ module.exports = {
     ],
     "no-console": "off",
   },
+  env: {
+    browser: true,
+  },
 };
