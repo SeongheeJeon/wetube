@@ -12,6 +12,7 @@ import routes from "./routes";
 import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import apiRouter from "./routers/apiRouter";
 
 import "./passport";
 
@@ -44,6 +45,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(localsMiddleware);
+app.use(routes.api, apiRouter);
 
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
