@@ -90,10 +90,15 @@ function getCurrentTime() {
 }
 
 async function setTotalTime() {
-  const blob = await fetch(videoPlayer.src).then((response) => response.blob());
-  const duration = await getBlobDuration(blob);
-  const totalTimeString = formatDate(duration);
-  totalTime.innerHTML = totalTimeString;
+  const response = await fetch(videoPlayer.src);
+  if (response.status === 200) {
+    const blob = await response.blob();
+    const duration = await getBlobDuration(blob);
+    const totalTimeString = formatDate(duration);
+    totalTime.innerHTML = totalTimeString;
+  } else {
+    console.log("Fail to fetch video");
+  }
 }
 
 function handleEnded() {
