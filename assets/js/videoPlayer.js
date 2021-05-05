@@ -94,7 +94,6 @@ async function setTotalTime() {
   const duration = await getBlobDuration(blob);
   const totalTimeString = formatDate(duration);
   totalTime.innerHTML = totalTimeString;
-  setInterval(getCurrentTime, 1000);
 }
 
 function handleEnded() {
@@ -122,9 +121,10 @@ function init() {
   playBtn.addEventListener("click", handlePlayClick);
   volumeBtn.addEventListener("click", handleVolumeClick);
   fullScrnBtn.addEventListener("click", goFullScreen);
-  videoPlayer.addEventListener("loadedmetadata", setTotalTime);
   videoPlayer.addEventListener("ended", handleEnded);
   volumeRange.addEventListener("input", handleDrag);
+  videoPlayer.addEventListener("timeupdate", getCurrentTime);
+  setTotalTime();
 }
 
 if (videoContainer) {
