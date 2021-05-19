@@ -6,7 +6,7 @@
   "author": "Seonghee Jeon",
   "license": "ISC",
   "engines": {
-    "node": "14.x"
+    "node": "14.17.0"
   },
   "dependencies": {
     "@babel/cli": "^7.13.16",
@@ -51,8 +51,8 @@
     "dev:assets": "cd src && cross-env WEBPACK_ENV=development webpack -w",
     "build:assets": "cd src && cross-env WEBPACK_ENV=production webpack",
     "build:server": "babel src --out-dir build --ignore 'src/assets','src/static','src/webpack.config.js",
-    "copyAll": "shx xcopy src\\static build\\static /d /e /h /c /y /i && xcopy src\\views build\\views /d /e /h /c /y /i",
-    "prebuild": "shx rd /s /Q \"bukild\"",
+    "copyAll": "shx cp -R src/static build && shx cp -R src/views build",
+    "prebuild": "shx rm -rf build",
     "build": "npm run build:server && npm run build:assets && npm run copyAll",
     "start": "node build/init.js"
   },
