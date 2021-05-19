@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "Seonghee Jeon",
   "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "@babel/cli": "^7.13.16",
     "@babel/core": "^7.14.2",
@@ -48,8 +51,8 @@
     "dev:assets": "cd src && cross-env WEBPACK_ENV=development webpack -w",
     "build:assets": "cd src && cross-env WEBPACK_ENV=production webpack",
     "build:server": "babel src --out-dir build --ignore 'src/assets','src/static','src/webpack.config.js",
-    "copyAll": "xcopy src\\static build\\static /d /e /h /c /y /i && xcopy src\\views build\\views /d /e /h /c /y /i",
-    "prebuild": "rd /s /Q \"build\"",
+    "copyAll": "shx xcopy src\\static build\\static /d /e /h /c /y /i && xcopy src\\views build\\views /d /e /h /c /y /i",
+    "prebuild": "shx rd /s /Q \"bukild\"",
     "build": "npm run build:server && npm run build:assets && npm run copyAll",
     "start": "node build/init.js"
   },
@@ -61,6 +64,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "shx": "^0.3.3"
   }
 }
